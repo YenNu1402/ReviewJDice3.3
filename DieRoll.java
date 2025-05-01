@@ -19,6 +19,7 @@ import java.util.logging.Level;
  *   <li>**Thêm JavaDoc chi tiết** - tăng tính rõ ràng.</li>
  *   <li>**Thêm logging bằng java.util.logging** - ghi lại các sự kiện khởi tạo, tung xúc xắc, và ngoại lệ.</li>
  *   <li>**Thêm validation cho RollResult.addResult** - đảm bảo giá trị tung hợp lệ (lớn hơn 0).</li>
+ *   <li>**Thêm phương thức helper getTotal trong RollResult** - tính tổng các lần tung cộng điểm thưởng.</li>
  * </ul>
  */
 public class DieRoll {
@@ -137,5 +138,16 @@ class RollResult {
         List<Integer> rollsCopy = new ArrayList<>(rolls);
         LOGGER.log(Level.FINE, "Trả về danh sách các lần tung: {0}", rollsCopy);
         return rollsCopy;
+    }
+
+    /**
+     * Tính tổng kết quả của các lần tung cộng với điểm thưởng.
+     * 
+     * @return Tổng các giá trị trong danh sách rolls cộng với bonus
+     */
+    public int getTotal() {
+        int total = rolls.stream().mapToInt(Integer::intValue).sum() + bonus;
+        LOGGER.log(Level.FINE, "Tổng kết quả tung: {0}", total);
+        return total;
     }
 }
