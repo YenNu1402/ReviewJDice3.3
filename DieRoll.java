@@ -18,6 +18,7 @@ import java.util.logging.Level;
  *   <li>**Sử dụng StringBuilder trong `toString`** - cải thiện hiệu suất.</li>
  *   <li>**Thêm JavaDoc chi tiết** - tăng tính rõ ràng.</li>
  *   <li>**Thêm logging bằng java.util.logging** - ghi lại các sự kiện khởi tạo, tung xúc xắc, và ngoại lệ.</li>
+ *   <li>**Thêm validation cho RollResult.addResult** - đảm bảo giá trị tung hợp lệ (lớn hơn 0).</li>
  * </ul>
  */
 public class DieRoll {
@@ -106,9 +107,14 @@ class RollResult {
     /**
      * Thêm kết quả của một lần tung.
      * 
-     * @param roll Giá trị tung được
+     * @param roll Giá trị tung được, phải lớn hơn 0
+     * @throws IllegalArgumentException nếu giá trị tung không hợp lệ (nhỏ hơn hoặc bằng 0)
      */
     public void addResult(int roll) {
+        if (roll <= 0) {
+            LOGGER.log(Level.SEVERE, "Giá trị tung không hợp lệ: roll={0}", roll);
+            throw new IllegalArgumentException("Giá trị tung phải lớn hơn 0");
+        }
         rolls.add(roll);
         LOGGER.log(Level.FINE, "Thêm kết quả tung: {0}", roll);
     }
