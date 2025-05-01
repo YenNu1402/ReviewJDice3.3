@@ -42,7 +42,7 @@ public class DiceSum extends DieRoll {
     // ✅ Helper method: Tính tổng điểm từ makeRoll()
     public int getTotalRollValue() {
         RollResult result = makeRoll();
-        return result.getTotal(); // Giả định RollResult có phương thức getTotal()
+        return Math.max(result.getTotal(), 10);
     }
 
     // ✅ Thông báo cải tiến rõ ràng hơn cho người dùng
