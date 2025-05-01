@@ -8,6 +8,7 @@ import java.util.logging.Level;
  * Class DieRoll - đại diện cho một lần tung nhiều xúc xắc với số mặt và điểm thưởng xác định.
  * 
  * Các thay đổi được refactor gồm:
+<<<<<<< HEAD
  * Thêm tên lớp DieRoll - mã ban đầu bị thiếu tên lớp.
  * Sửa lỗi biến thisndice thành this.ndice - để tránh lỗi cú pháp.
  * Sửa block khởi tạo static bị comment - đảm bảo Random rnd được khởi tạo đúng.
@@ -20,6 +21,20 @@ import java.util.logging.Level;
  * Thêm validation cho RollResult.addResult - đảm bảo giá trị tung hợp lệ (lớn hơn 0).
  * Thêm phương thức helper getTotal trong RollResult - tính tổng các lần tung cộng điểm thưởng.
  * Thêm toString trong RollResult - cải thiện thông báo hiển thị cho người dùng với chi tiết các lần tung, điểm thưởng, và tổng.
+=======
+ *   Thêm tên lớp DieRoll - mã ban đầu bị thiếu tên lớp.
+ *   Sửa lỗi biến thisndice thành this.ndice - để tránh lỗi cú pháp.
+ *   Sửa block khởi tạo static bị comment - đảm bảo Random rnd được khởi tạo đúng.
+ *   Thêm dấu chấm phẩy còn thiếu ở r.addResult(roll);
+ *   Sửa lỗi cú pháp := thành = trong toString
+ *   Thêm kiểm tra đầu vào - đảm bảo số xúc xắc và số mặt hợp lệ.
+ *   Sử dụng StringBuilder trong toString - cải thiện hiệu suất.
+ *   Thêm JavaDoc chi tiết - tăng tính rõ ràng.
+ *   Thêm logging bằng java.util.logging - ghi lại các sự kiện khởi tạo, tung xúc xắc, và ngoại lệ.
+ *   Thêm validation cho RollResult.addResult - đảm bảo giá trị tung hợp lệ (lớn hơn 0).
+ *   Thêm phương thức helper getTotal trong RollResult - tính tổng các lần tung cộng điểm thưởng.
+ *   Thêm toString trong RollResult - cải thiện thông báo hiển thị cho người dùng với chi tiết các lần tung, điểm thưởng, và tổng.
+>>>>>>> be8dbf0 (Conflict JDice)
  */
 public class DieRoll {
     private final int numDice; // Refactored: Đổi tên từ ndice
@@ -27,6 +42,7 @@ public class DieRoll {
     private final int bonus;
     private static final Random random = new Random(); // Refactored: Đổi tên và khai báo final
     private static final Logger LOGGER = Logger.getLogger(DieRoll.class.getName()); // Logger cho lớp
+	private static final boolean IS_DEBUG = System.getProperty("debug", "false").equals("true");
 
     /**
      * Constructor tạo một lần tung xúc xắc.
@@ -54,12 +70,17 @@ public class DieRoll {
      * @return Kết quả của lần tung, chứa danh sách các giá trị ngẫu nhiên từ 1 đến numSides và điểm thưởng
      */
     public RollResult roll() {
-        LOGGER.log(Level.FINE, "Bắt đầu tung {0} xúc xắc {1} mặt", new Object[]{numDice, numSides});
+        if (IS_DEBUG) {
+			LOGGER.log(Level.FINE, "Bắt đầu tung {0} xúc xắc {1} mặt", new Object[]{numDice, numSides});
+		}		
         RollResult r = new RollResult(bonus);
         for (int i = 0; i < numDice; i++) {
             int roll = random.nextInt(numSides) + 1;
             r.addResult(roll);
-            LOGGER.log(Level.FINE, "Tung xúc xắc thứ {0}: kết quả = {1}", new Object[]{i + 1, roll});
+            if (IS_DEBUG) {
+				LOGGER.log(Level.FINE, "Tung xúc xắc thứ {0}: kết quả = {1}", new Object[]{i + 1, roll});
+			}
+			
         }
         LOGGER.log(Level.INFO, "Kết quả tung: {0}, bonus: {1}", new Object[]{r.getRolls(), bonus});
         return r;
@@ -80,7 +101,9 @@ public class DieRoll {
             ans.append(bonus);
         }
         String result = ans.toString();
-        LOGGER.log(Level.FINE, "Chuỗi biểu diễn DieRoll: {0}", result);
+        if (IS_DEBUG) {
+			LOGGER.log(Level.FINE, "Chuỗi biểu diễn DieRoll: {0}", result);
+		}
         return result;
     }
 }
