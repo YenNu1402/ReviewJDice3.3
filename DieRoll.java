@@ -7,21 +7,19 @@ import java.util.logging.Level;
 /**
  * Class DieRoll - đại diện cho một lần tung nhiều xúc xắc với số mặt và điểm thưởng xác định.
  * 
- * <p>Các thay đổi được refactor gồm:</p>
- * <ul>
- *   <li>**Thêm tên lớp DieRoll** - mã ban đầu bị thiếu tên lớp.</li>
- *   <li>**Sửa lỗi biến `thisndice` thành `this.ndice`** - để tránh lỗi cú pháp.</li>
- *   <li>**Sửa block khởi tạo static bị comment** - đảm bảo `Random rnd` được khởi tạo đúng.</li>
- *   <li>**Thêm dấu chấm phẩy còn thiếu ở `r.addResult(roll);`**.</li>
- *   <li>**Sửa lỗi cú pháp `:=` thành `=` trong `toString`**.</li>
- *   <li>**Thêm kiểm tra đầu vào** - đảm bảo số xúc xắc và số mặt hợp lệ.</li>
- *   <li>**Sử dụng StringBuilder trong `toString`** - cải thiện hiệu suất.</li>
- *   <li>**Thêm JavaDoc chi tiết** - tăng tính rõ ràng.</li>
- *   <li>**Thêm logging bằng java.util.logging** - ghi lại các sự kiện khởi tạo, tung xúc xắc, và ngoại lệ.</li>
- *   <li>**Thêm validation cho RollResult.addResult** - đảm bảo giá trị tung hợp lệ (lớn hơn 0).</li>
- *   <li>**Thêm phương thức helper getTotal trong RollResult** - tính tổng các lần tung cộng điểm thưởng.</li>
- *   <li>**Thêm toString trong RollResult** - cải thiện thông báo hiển thị cho người dùng với chi tiết các lần tung, điểm thưởng, và tổng.</li>
- * </ul>
+ * Các thay đổi được refactor gồm:
+ * Thêm tên lớp DieRoll - mã ban đầu bị thiếu tên lớp.
+ * Sửa lỗi biến thisndice thành this.ndice - để tránh lỗi cú pháp.
+ * Sửa block khởi tạo static bị comment - đảm bảo Random rnd được khởi tạo đúng.
+ * Thêm dấu chấm phẩy còn thiếu ở r.addResult(roll);
+ * Sửa lỗi cú pháp := thành = trong toString
+ * Thêm kiểm tra đầu vào - đảm bảo số xúc xắc và số mặt hợp lệ.
+ * Sử dụng StringBuilder trong toString - cải thiện hiệu suất.
+ * Thêm JavaDoc chi tiết - tăng tính rõ ràng.
+ * Thêm logging bằng java.util.logging - ghi lại các sự kiện khởi tạo, tung xúc xắc, và ngoại lệ.
+ * Thêm validation cho RollResult.addResult - đảm bảo giá trị tung hợp lệ (lớn hơn 0).
+ * Thêm phương thức helper getTotal trong RollResult - tính tổng các lần tung cộng điểm thưởng.
+ * Thêm toString trong RollResult - cải thiện thông báo hiển thị cho người dùng với chi tiết các lần tung, điểm thưởng, và tổng.
  */
 public class DieRoll {
     private final int numDice; // Refactored: Đổi tên từ ndice
