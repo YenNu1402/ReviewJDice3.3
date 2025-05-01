@@ -1,4 +1,8 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * Class DieRoll - đại diện cho một lần tung nhiều xúc xắc với số mặt và điểm thưởng xác định.
@@ -13,6 +17,7 @@ import java.util.Random;
  *   <li>**Thêm kiểm tra đầu vào** - đảm bảo số xúc xắc và số mặt hợp lệ.</li>
  *   <li>**Sử dụng StringBuilder trong `toString`** - cải thiện hiệu suất.</li>
  *   <li>**Thêm JavaDoc chi tiết** - tăng tính rõ ràng.</li>
+ *   <li>**Thêm logging bằng java.util.logging** - ghi lại các sự kiện khởi tạo, tung xúc xắc, và ngoại lệ.</li>
  * </ul>
  */
 public class DieRoll {
@@ -20,6 +25,7 @@ public class DieRoll {
     private final int numSides; // Refactored: Đổi tên từ nsides
     private final int bonus;
     private static final Random random = new Random(); // Refactored: Đổi tên và khai báo final
+    private static final Logger LOGGER = Logger.getLogger(DieRoll.class.getName()); // Logger cho lớp
 
     /**
      * Constructor tạo một lần tung xúc xắc.
@@ -31,24 +37,30 @@ public class DieRoll {
      */
     public DieRoll(int numDice, int numSides, int bonus) {
         if (numDice < 1 || numSides < 1) {
+            LOGGER.log(Level.SEVERE, "Đầu vào không hợp lệ: numDice={0}, numSides={1}", new Object[]{numDice, numSides});
             throw new IllegalArgumentException("Số xúc xắc và số mặt phải lớn hơn 0");
         }
-        this.numDice = numDice; // Refactored: Sửa lỗi chính tả từ "thisndice"
+        this.numDice = numDice;
         this.numSides = numSides;
         this.bonus = bonus;
+        LOGGER.log(Level.INFO, "Khởi tạo DieRoll: {0}d{1}{2}{3}", 
+                   new Object[]{numDice, numSides, bonus >= 0 ? "+" : "", bonus});
     }
 
     /**
      * Thực hiện việc tung xúc xắc và trả về kết quả.
      * 
-     * @return Kết quả của lần tung, chứa danh sách các lần tung và điểm thưởng
+     * @return Kết quả của lần tung, chứa danh sách các giá trị ngẫu nhiên từ 1 đến numSides và điểm thưởng
      */
-    public RollResult roll() { // Refactored: Đổi tên từ makeRoll
+    public RollResult roll() {
+        LOGGER.log(Level.FINE, "Bắt đầu tung {0} xúc xắc {1} mặt", new Object[]{numDice, numSides});
         RollResult r = new RollResult(bonus);
         for (int i = 0; i < numDice; i++) {
             int roll = random.nextInt(numSides) + 1;
-            r.addResult(roll); // Refactored: Thêm dấu chấm phẩy
+            r.addResult(roll);
+            LOGGER.log(Level.FINE, "Tung xúc xắc thứ {0}: kết quả = {1}", new Object[]{i + 1, roll});
         }
+        LOGGER.log(Level.INFO, "Kết quả tung: {0}, bonus: {1}", new Object[]{r.getRolls(), bonus});
         return r;
     }
 
@@ -59,14 +71,16 @@ public class DieRoll {
      */
     @Override
     public String toString() {
-        StringBuilder ans = new StringBuilder(); // Refactored: Dùng StringBuilder
+        StringBuilder ans = new StringBuilder();
         ans.append(numDice).append("d").append(numSides);
         if (bonus > 0) {
             ans.append("+").append(bonus);
         } else if (bonus < 0) {
-            ans.append(bonus); // Refactored: Sửa lỗi ":="
+            ans.append(bonus);
         }
-        return ans.toString();
+        String result = ans.toString();
+        LOGGER.log(Level.FINE, "Chuỗi biểu diễn DieRoll: {0}", result);
+        return result;
     }
 }
 
@@ -76,6 +90,7 @@ public class DieRoll {
 class RollResult {
     private final int bonus;
     private final List<Integer> rolls;
+    private static final Logger LOGGER = Logger.getLogger(RollResult.class.getName()); // Logger cho lớp
 
     /**
      * Khởi tạo RollResult với điểm thưởng.
@@ -85,6 +100,7 @@ class RollResult {
     public RollResult(int bonus) {
         this.bonus = bonus;
         this.rolls = new ArrayList<>();
+        LOGGER.log(Level.INFO, "Khởi tạo RollResult với bonus: {0}", bonus);
     }
 
     /**
@@ -94,6 +110,7 @@ class RollResult {
      */
     public void addResult(int roll) {
         rolls.add(roll);
+        LOGGER.log(Level.FINE, "Thêm kết quả tung: {0}", roll);
     }
 
     /**
@@ -111,6 +128,8 @@ class RollResult {
      * @return Bản sao của danh sách các lần tung
      */
     public List<Integer> getRolls() {
-        return new ArrayList<>(rolls);
+        List<Integer> rollsCopy = new ArrayList<>(rolls);
+        LOGGER.log(Level.FINE, "Trả về danh sách các lần tung: {0}", rollsCopy);
+        return rollsCopy;
     }
 }
