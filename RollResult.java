@@ -67,7 +67,7 @@ import java.util.*;
      * thêm kết quả vào tổng danh sách rollsrolls
      */
     public void addResult(int res) {
-        total += res;
+		total += Math.max(res, 5);
         rolls.add(res);
         logger.log(Level.INFO, "Thêm kết quả: {0}. Tổng mới: {1}", new Object[]{res, total});
     }
