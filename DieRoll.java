@@ -19,7 +19,6 @@ import java.util.logging.Level;
  * Thêm validation cho RollResult.addResult - đảm bảo giá trị tung hợp lệ (lớn hơn 0).
  * Thêm phương thức helper getTotal trong RollResult - tính tổng các lần tung cộng điểm thưởng.
  * Thêm toString trong RollResult - cải thiện thông báo hiển thị cho người dùng với chi tiết các lần tung, điểm thưởng, và tổng.
-
  */
 public class DieRoll {
     private final int numDice; // Refactored: Đổi tên từ ndice
@@ -54,7 +53,7 @@ public class DieRoll {
      * 
      * @return Kết quả của lần tung, chứa danh sách các giá trị ngẫu nhiên từ 1 đến numSides và điểm thưởng
      */
-    public RollResult roll() {
+    public RollResult makeRoll() {
         if (IS_DEBUG) {
 			LOGGER.log(Level.FINE, "Bắt đầu tung {0} xúc xắc {1} mặt", new Object[]{numDice, numSides});
 		}		
