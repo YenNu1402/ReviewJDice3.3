@@ -67,10 +67,10 @@ import java.util.*;
      * thêm kết quả vào tổng danh sách rollsrolls
      */
     public void addResult(int res) {
-		total += Math.max(res, 5);
-        rolls.add(res);
-        logger.log(Level.INFO, "Thêm kết quả: {0}. Tổng mới: {1}", new Object[]{res, total});
-    }
+		total += res; // Chỉ sử dụng giá trị thực tế của res
+		rolls.add(res);
+		logger.log(Level.INFO, "Thêm kết quả: {0}. Tổng mới: {1}", new Object[]{res, total});
+	}
 
     /*** Kết hợp đối tượng hiện tại với một đối tượng RollResult khác. Tổng điểm,
      * modifier và danh sách rolls sẽ được gộp lại.
